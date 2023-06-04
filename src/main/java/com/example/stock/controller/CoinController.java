@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Coin")
+@RequestMapping("/coin")
 public class CoinController {
     @Autowired
     private CoinServices coinApiServices;
