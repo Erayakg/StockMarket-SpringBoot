@@ -24,6 +24,6 @@ public class User {
     @Lob
     private byte[] profilePhoto;
     @OneToMany
-    List<Coin> coins;
+    List<Portfolio> portfolioList;
 
 }

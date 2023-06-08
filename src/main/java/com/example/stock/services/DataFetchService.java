@@ -11,6 +11,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DataFetchService {
@@ -36,7 +37,13 @@ public class DataFetchService {
 
             Collections.addAll(coinList, coins);
 
-            return coinList;
+            List<Coin> filteredList = coinList.stream()
+                    .filter(coin -> coin.getLastPrice() != 0)
+                    .collect(Collectors.toList());
+
+
+
+            return filteredList;
 
         } catch (Exception e) {
             throw new RuntimeException(e);

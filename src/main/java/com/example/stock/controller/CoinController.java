@@ -13,7 +13,6 @@ import java.util.Optional;
 public class CoinController {
     @Autowired
     private CoinServices coinApiServices;
-
     @GetMapping("/all")
     public List<Coin> GetAllCoin(){
         return coinApiServices.getAllCoins();

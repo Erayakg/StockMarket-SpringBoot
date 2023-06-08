@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(maxAge = 3600)
 public class UserController {
     @Autowired
     UserService userService;
@@ -17,13 +18,17 @@ public class UserController {
     public List<User> getAllUser(){
         return userService.getAllUser();
     }
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public List<User> getByName(@PathVariable String name){
         return userService.getbyname(name);
     }
     @PostMapping("/add")
     public User addUser(@RequestBody SaveUserdto user){
         return userService.Adduser(user);
+    }
+    @GetMapping("/{id}")
+    public User GetById(@PathVariable Long id){
+        return userService.getByid(id);
     }
 
 
