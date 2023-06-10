@@ -23,7 +23,11 @@ public class User {
     private String password;
     @Lob
     private byte[] profilePhoto;
-    @OneToMany
-    List<Portfolio> portfolioList;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Portfolio> portfolios;
+
+
 
 }

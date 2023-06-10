@@ -14,6 +14,8 @@ public class Coin {
 
     @Id
     private Double firstId;
+
+
     private String symbol;
     private Double priceChange;
     private Double priceChangePercent;
@@ -33,5 +35,6 @@ public class Coin {
     private Date openTime;
     private Date closeTime;
     private Double count;
-
+    @ManyToOne
+    Portfolio portfolio;
 }

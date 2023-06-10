@@ -1,4 +1,4 @@
-package com.example.stock.services;
+package com.example.stock.services.impl;
 
 import com.example.stock.entities.Coin;
 

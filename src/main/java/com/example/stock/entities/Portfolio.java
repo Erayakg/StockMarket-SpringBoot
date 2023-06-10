@@ -1,23 +1,34 @@
 package com.example.stock.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Portfolio {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    Date createdDate ;
-    Double portfolioPrice;
-    Double Pairs;
+    private String name;
 
-    @OneToMany
-    List<Coin> coinList;
+    @Temporal(TemporalType.TIMESTAMP)
+    Date createdDate;
+
+    Double portfolioPrice;
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Coin> coinList =new ArrayList<>();
+
+    @ManyToOne
+    User user;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdDate = new Date();
+    }
 }
