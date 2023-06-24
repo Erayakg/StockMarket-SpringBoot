@@ -1,11 +1,10 @@
 package com.example.stock.controller;
 
+import com.example.stock.dto.AddCoinportfDto;
 import com.example.stock.dto.CreatePortfdto;
-import com.example.stock.entities.Coin;
 import com.example.stock.entities.Portfolio;
 import com.example.stock.services.Portfolioservice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +23,12 @@ public class PortfolioController {
         return portfolioservice.getallPortf();
     }
     @PostMapping("/add/{id}")
-    public Portfolio addCoinportf(@PathVariable Long id ,@RequestBody List<Double> coinList){
-        return portfolioservice.UpdatePortf(id,coinList);
+    public Portfolio addCoinportf(@PathVariable Long id ,@RequestBody List<AddCoinportfDto> coinList){
+        return portfolioservice.addCoinPortf(id,coinList);
+    }
+    @DeleteMapping("{portfId}/delete")
+    public Portfolio DeletePortf(@PathVariable Long portfId){
+        return portfolioservice.deletePortf(portfId);
     }
 
 }

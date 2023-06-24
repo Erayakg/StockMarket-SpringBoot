@@ -40,9 +40,6 @@ public class DataFetchService {
             List<Coin> filteredList = coinList.stream()
                     .filter(coin -> coin.getLastPrice() != 0)
                     .collect(Collectors.toList());
-
-
-
             return filteredList;
 
         } catch (Exception e) {

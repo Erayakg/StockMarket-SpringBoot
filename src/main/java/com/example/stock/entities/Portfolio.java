@@ -21,8 +21,9 @@ public class Portfolio {
     Date createdDate;
 
     Double portfolioPrice;
+
     @OneToMany(cascade = CascadeType.ALL)
-    List<Coin> coinList =new ArrayList<>();
+    List<PortfolioCoin>  portfolioCoins =new ArrayList<>();
 
     @ManyToOne
     User user;
