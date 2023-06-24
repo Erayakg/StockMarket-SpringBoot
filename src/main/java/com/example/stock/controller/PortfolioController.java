@@ -2,6 +2,7 @@ package com.example.stock.controller;
 
 import com.example.stock.dto.AddCoinportfDto;
 import com.example.stock.dto.CreatePortfdto;
+import com.example.stock.dto.deleteCoindto;
 import com.example.stock.entities.Portfolio;
 import com.example.stock.services.Portfolioservice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,8 @@ public class PortfolioController {
     public Portfolio DeletePortf(@PathVariable Long portfId){
         return portfolioservice.deletePortf(portfId);
     }
-
+    @DeleteMapping("/delete/coin/{portfId}")
+    public Portfolio DeletePortfCoin(@PathVariable Long portfId,@RequestBody List<deleteCoindto> coinName) {
+        return portfolioservice.deletePortfCoin(portfId,coinName);
+    }
 }

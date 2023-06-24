@@ -21,6 +21,8 @@ public class PortfolioCoin {
 
     private Date salesDate;
     private Double quantity;
+    @ManyToOne
+    Portfolio portfolio;
 
 
 
