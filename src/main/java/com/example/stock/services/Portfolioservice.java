@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sound.sampled.Port;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +47,6 @@ public class Portfolioservice implements IportfolioServiceImpl {
 
         List<Coin> coinList = dataFetchService.getAllCoins();
 
-
         if (portfolio == null) {
             System.out.println("Not Found Portfolio");
             return null;
@@ -55,15 +55,25 @@ public class Portfolioservice implements IportfolioServiceImpl {
             for (Coin coin : coinList) {
                 if (Objects.equals(dto.getCoinName(), coin.getSymbol())) {
                     System.out.println("bulundu" + coin.toString());
-                    PortfolioCoin coin1 = new PortfolioCoin();
-                    coin1.setQuantity(dto.getQuantity());
-                    coin1.setBougthPrice(dto.getBougthprice());
-                    coin1.setQuantity(dto.getQuantity());
-                    coin1.setName(dto.getCoinName());
-                    portfolio.getPortfolioCoins().add(coin1);
+                    boolean coinExistsInPortfolio = false;
+                    for (PortfolioCoin portfolioCoin : portfolio.getPortfolioCoins()) {
+                        if (Objects.equals(portfolioCoin.getName(), dto.getCoinName())) {
+                            coinExistsInPortfolio = true;
+                            portfolioCoin.setQuantity(portfolioCoin.getQuantity() + dto.getQuantity());
+                            break;
+                        }
+                    }
+                    if (!coinExistsInPortfolio) {
+                        PortfolioCoin coin1 = new PortfolioCoin();
+                        coin1.setQuantity(dto.getQuantity());
+                        coin1.setBougthPrice(dto.getBougthprice());
+                        coin1.setName(dto.getCoinName());
+                        portfolio.getPortfolioCoins().add(coin1);
+                    }
                 }
             }
         }
+        calculatePortfolioPrice(Portfolioid);
         return portfolioRepo.save(portfolio);
     }
 
@@ -79,6 +89,7 @@ public class Portfolioservice implements IportfolioServiceImpl {
         portfolioRepo.delete(deleteportf);
         return deleteportf;
     }
+
     @Transactional
     @Override
     public Portfolio deletePortfCoin(Long portfId, List<deleteCoindto> coinName) {
@@ -95,7 +106,7 @@ public class Portfolioservice implements IportfolioServiceImpl {
         for (PortfolioCoin portfolio : deletePortfolio.getPortfolioCoins()) {
             for (deleteCoindto portfName : coinName) {
                 if (portfName.getName().equals(portfolio.getName())) {
-                    PortfolioCoin deletedcoin=coinRepo.getByName(portfolio.getName());
+                    PortfolioCoin deletedcoin = coinRepo.getByName(portfolio.getName());
                     if (deletedcoin != null) {
                         coinsToRemove.add(deletedcoin);
                     } else {
@@ -113,5 +124,28 @@ public class Portfolioservice implements IportfolioServiceImpl {
 
         coinRepo.flush();
         return deletePortfolio;
+    }
+
+    @Override
+    public Portfolio calculatePortfolioPrice(Long portfId) {
+
+        Portfolio portfolio = portfolioRepo.getById(portfId);
+        Double price = 0.0;
+        if (portfolio == null) {
+            System.out.println("Not Found Portfolio");
+            return null;
+        }
+
+        List<Coin> coinList = dataFetchService.getAllCoins();
+        for (Coin coin : coinList) {
+            for (PortfolioCoin portfolioCoin : portfolio.getPortfolioCoins()) {
+                if (Objects.equals(portfolioCoin.getName(), coin.getSymbol())) {
+                    System.out.println(coin.getLastPrice());
+                    price += portfolioCoin.getQuantity() * coin.getLastPrice();
+                }
+            }
+        }
+        portfolio.setPortfolioPrice(price);
+        return portfolio;
     }
 }
