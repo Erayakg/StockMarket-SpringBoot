@@ -38,7 +38,7 @@ public class DataFetchService {
             Collections.addAll(coinList, coins);
 
             List<Coin> filteredList = coinList.stream()
-                    .filter(coin -> coin.getLastPrice() != 0)
+                    .filter(coin -> coin.getLastPrice() != 0 && coin.getSymbol().endsWith("USDT") )
                     .collect(Collectors.toList());
             return filteredList;
 

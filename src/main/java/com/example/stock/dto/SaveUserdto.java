@@ -11,4 +11,5 @@ public class SaveUserdto {
     private String about;
     private String email;
     private String password;
+    private String role;
 }

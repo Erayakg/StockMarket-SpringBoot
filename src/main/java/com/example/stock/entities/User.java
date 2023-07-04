@@ -28,6 +28,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Portfolio> portfolios;
 
+    private String role;
+
 
 
 }
