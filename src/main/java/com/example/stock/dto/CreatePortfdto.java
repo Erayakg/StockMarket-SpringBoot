@@ -8,4 +8,5 @@ import java.util.List;
 @Data
 public class CreatePortfdto {
     private String name;
+    private  Long id;
 }

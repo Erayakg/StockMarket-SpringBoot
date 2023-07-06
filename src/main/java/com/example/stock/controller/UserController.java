@@ -1,9 +1,11 @@
 package com.example.stock.controller;
 
 import com.example.stock.dto.AuthRequest;
+import com.example.stock.dto.AuthResponse;
 import com.example.stock.dto.SaveUserdto;
 import com.example.stock.entities.User;
-import com.example.stock.services.JwtService;
+import com.example.stock.repository.UserRepo;
+import com.example.stock.services.SecurityService.JwtService;
 import com.example.stock.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +27,8 @@ public class UserController {
     JwtService jwtService;
     @Autowired
     AuthenticationManager manager;
+    @Autowired
+    UserRepo userRepo;
     @GetMapping("/all")
     public List<User> getAllUser(){
         return userService.getAllUser();
@@ -42,13 +46,18 @@ public class UserController {
         return userService.getByid(id);
     }
     @PostMapping("/authenticate")
-    public String authenticatedAndGenerate(@RequestBody AuthRequest authRequest){
+    public AuthResponse authenticatedAndGenerate(@RequestBody AuthRequest authRequest){
         Authentication authenticate = manager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
         if (authenticate.isAuthenticated()){
-            return jwtService.generateToken(authRequest.getUserName());
+           Optional<User> user=userService.getbyname(authRequest.getUserName());
+            AuthResponse authResponse=new AuthResponse();
+            authResponse.setToken(jwtService.generateToken(authRequest.getUserName()));
+            authResponse.setId(user.get().getId());
+            return authResponse;
         }
         else {
             throw  new UsernameNotFoundException("invalid user");
         }
     }
+
 }

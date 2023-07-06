@@ -19,9 +19,7 @@ public class Portfolio {
 
     @Temporal(TemporalType.TIMESTAMP)
     Date createdDate;
-
     Double portfolioPrice;
-
     @OneToMany(cascade = CascadeType.ALL)
     List<PortfolioCoin>  portfolioCoins =new ArrayList<>();
 

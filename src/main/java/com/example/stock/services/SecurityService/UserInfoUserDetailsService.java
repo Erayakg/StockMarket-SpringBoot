@@ -1,4 +1,4 @@
-package com.example.stock.services;
+package com.example.stock.services.SecurityService;
 
 import com.example.stock.config.UserDetails;
 import com.example.stock.entities.User;

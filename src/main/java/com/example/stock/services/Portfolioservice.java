@@ -6,8 +6,10 @@ import com.example.stock.dto.deleteCoindto;
 import com.example.stock.entities.Coin;
 import com.example.stock.entities.Portfolio;
 import com.example.stock.entities.PortfolioCoin;
+import com.example.stock.entities.User;
 import com.example.stock.repository.PortfCoinRepo;
 import com.example.stock.repository.PortfolioRepo;
+import com.example.stock.repository.UserRepo;
 import com.example.stock.services.impl.IportfolioServiceImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +30,16 @@ public class Portfolioservice implements IportfolioServiceImpl {
     DataFetchService dataFetchService;
     @Autowired
     PortfCoinRepo coinRepo;
-
+    @Autowired
+    private UserRepo userRepo;
     @Override
     public Portfolio CreatePortfolio(CreatePortfdto portfolio) {
         Portfolio portfolio1 = new Portfolio();
+        User user=userRepo.getUserById(portfolio.getId());
+        portfolio1.setUser(user);
+
         portfolio1.setName(portfolio.getName());
+
         return portfolioRepo.save(portfolio1);
     }
 
