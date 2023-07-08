@@ -1,4 +1,4 @@
-# StockReactApp
+# StockMarket-SpringBoot
 
 Bu, StockReactApp adlı basit bir stok takip uygulamasıdır.
 
