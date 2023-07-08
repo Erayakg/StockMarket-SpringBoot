@@ -1,6 +1,6 @@
 # StockMarket-SpringBoot
 
-Bu, StockReactApp adlı basit bir stok takip uygulamasıdır.
+Bu,  StockMarket-SpringBoot adlı basit bir stok takip uygulamasıdır.
 
 ## Özellikler
 - Kullanıcılar sisteme kayıt olabilir ve kendi portfoliolarını oluşturabilir
