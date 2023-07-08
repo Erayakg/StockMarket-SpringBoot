@@ -39,6 +39,7 @@ public class Portfolioservice implements IportfolioServiceImpl {
         portfolio1.setUser(user);
 
         portfolio1.setName(portfolio.getName());
+        user.getPortfolios().add(portfolio1);
 
         return portfolioRepo.save(portfolio1);
     }

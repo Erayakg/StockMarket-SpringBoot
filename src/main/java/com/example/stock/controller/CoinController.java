@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(maxAge = 3600)
 @RequestMapping("/coin")
 public class CoinController {
     @Autowired
