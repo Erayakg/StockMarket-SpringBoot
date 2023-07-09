@@ -1,9 +1,6 @@
 package com.example.stock.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,7 +13,6 @@ import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,12 +22,13 @@ public class Portfolio {
     @Temporal(TemporalType.TIMESTAMP)
     Date createdDate;
     Double portfolioPrice;
+
     @OneToMany(cascade = CascadeType.ALL)
     List<PortfolioCoin>  portfolioCoins =new ArrayList<>();
 
     @ManyToOne
-    User user;
-
+    @JsonBackReference
+    private User user;
     @PrePersist
     public void prePersist() {
         this.createdDate = new Date();

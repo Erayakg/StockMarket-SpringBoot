@@ -14,6 +14,7 @@ public class PortfolioCoin {
 
     private String name;
     private Double bougthPrice;
+    private Double totalprice;
     private Double salePrice;
 
     private Date BougthDate;

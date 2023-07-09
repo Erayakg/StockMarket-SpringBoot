@@ -67,21 +67,29 @@ public class Portfolioservice implements IportfolioServiceImpl {
                     for (PortfolioCoin portfolioCoin : portfolio.getPortfolioCoins()) {
                         if (Objects.equals(portfolioCoin.getName(), dto.getCoinName())) {
                             coinExistsInPortfolio = true;
+                            System.out.println("dto"+dto);
                             portfolioCoin.setQuantity(portfolioCoin.getQuantity() + dto.getQuantity());
+                            portfolioCoin.setTotalprice(portfolioCoin.getTotalprice()+(dto.getBougthprice()* dto.getQuantity()));
                             break;
                         }
                     }
                     if (!coinExistsInPortfolio) {
                         PortfolioCoin coin1 = new PortfolioCoin();
+                        System.out.println("Dto");
+                        System.out.println(dto);
+                        System.out.println();
                         coin1.setQuantity(dto.getQuantity());
                         coin1.setBougthPrice(dto.getBougthprice());
                         coin1.setName(dto.getCoinName());
+                        coin1.setTotalprice(dto.getBougthprice()*dto.getQuantity());
+
                         portfolio.getPortfolioCoins().add(coin1);
                     }
                 }
             }
         }
-        calculatePortfolioPrice(Portfolioid);
+
+        calculatePortfolioPrice(Portfolioid,coinPortfs);
         return portfolioRepo.save(portfolio);
     }
 
@@ -135,25 +143,24 @@ public class Portfolioservice implements IportfolioServiceImpl {
     }
 
     @Override
-    public Portfolio calculatePortfolioPrice(Long portfId) {
+    public Portfolio calculatePortfolioPrice(Long portfId, List<AddCoinportfDto> addCoinportfDtos) {
 
         Portfolio portfolio = portfolioRepo.getById(portfId);
-        Double price = 0.0;
+
+        Double price=0.0;
+
         if (portfolio == null) {
             System.out.println("Not Found Portfolio");
             return null;
         }
-
-        List<Coin> coinList = dataFetchService.getAllCoins();
-        for (Coin coin : coinList) {
-            for (PortfolioCoin portfolioCoin : portfolio.getPortfolioCoins()) {
-                if (Objects.equals(portfolioCoin.getName(), coin.getSymbol())) {
-                    System.out.println(coin.getLastPrice());
-                    price += portfolioCoin.getQuantity() * coin.getLastPrice();
-                }
-            }
+        for (AddCoinportfDto addCoinportfDto:addCoinportfDtos){
+            price=addCoinportfDto.getBougthprice()*addCoinportfDto.getQuantity();
         }
-        portfolio.setPortfolioPrice(price);
+        if (portfolio.getPortfolioPrice()==null){
+            portfolio.setPortfolioPrice(0.0);
+        }
+        portfolio.setPortfolioPrice(price+portfolio.getPortfolioPrice());
+
         return portfolio;
     }
 }

@@ -13,5 +13,5 @@ public interface IportfolioServiceImpl {
     Portfolio addCoinPortf(Long portfolioid,List<AddCoinportfDto> CoinId);
     Portfolio deletePortf(Long portfId);
     Portfolio deletePortfCoin(Long portfId,List<deleteCoindto> coinName );
-    Portfolio calculatePortfolioPrice(Long portfId);
+    Portfolio calculatePortfolioPrice(Long portfId,List<AddCoinportfDto> Portfolio);
 }
