@@ -10,6 +10,8 @@ import java.util.List;
 
 @Data
 @Entity
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
@@ -23,7 +25,7 @@ public class Portfolio {
     Date createdDate;
     Double portfolioPrice;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL )
     List<PortfolioCoin>  portfolioCoins =new ArrayList<>();
 
     @ManyToOne

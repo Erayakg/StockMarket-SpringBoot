@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface PortfCoinRepo extends JpaRepository<PortfolioCoin,Long> {
    PortfolioCoin getByName(String name);
+   PortfolioCoin getById(Long id);
+
+
 }
+

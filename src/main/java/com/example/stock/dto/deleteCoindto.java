@@ -1,13 +1,11 @@
 package com.example.stock.dto;
 
+import lombok.Data;
+
+@Data
 public class deleteCoindto {
     String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    Double salePrice;
+    Double quantity;
+    Long id;
 }

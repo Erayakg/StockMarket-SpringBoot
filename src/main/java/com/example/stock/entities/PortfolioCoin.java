@@ -1,5 +1,6 @@
 package com.example.stock.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,7 +22,9 @@ public class PortfolioCoin {
 
 
     private Date salesDate;
+
     private Double quantity;
+
     @ManyToOne
     Portfolio portfolio;
 

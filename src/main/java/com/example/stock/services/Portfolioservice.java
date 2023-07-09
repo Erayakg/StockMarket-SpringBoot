@@ -32,10 +32,11 @@ public class Portfolioservice implements IportfolioServiceImpl {
     PortfCoinRepo coinRepo;
     @Autowired
     private UserRepo userRepo;
+
     @Override
     public Portfolio CreatePortfolio(CreatePortfdto portfolio) {
         Portfolio portfolio1 = new Portfolio();
-        User user=userRepo.getUserById(portfolio.getId());
+        User user = userRepo.getUserById(portfolio.getId());
         portfolio1.setUser(user);
 
         portfolio1.setName(portfolio.getName());
@@ -67,9 +68,9 @@ public class Portfolioservice implements IportfolioServiceImpl {
                     for (PortfolioCoin portfolioCoin : portfolio.getPortfolioCoins()) {
                         if (Objects.equals(portfolioCoin.getName(), dto.getCoinName())) {
                             coinExistsInPortfolio = true;
-                            System.out.println("dto"+dto);
+                            System.out.println("dto" + dto);
                             portfolioCoin.setQuantity(portfolioCoin.getQuantity() + dto.getQuantity());
-                            portfolioCoin.setTotalprice(portfolioCoin.getTotalprice()+(dto.getBougthprice()* dto.getQuantity()));
+                            portfolioCoin.setTotalprice(portfolioCoin.getTotalprice() + (dto.getBougthprice() * dto.getQuantity()));
                             break;
                         }
                     }
@@ -81,7 +82,7 @@ public class Portfolioservice implements IportfolioServiceImpl {
                         coin1.setQuantity(dto.getQuantity());
                         coin1.setBougthPrice(dto.getBougthprice());
                         coin1.setName(dto.getCoinName());
-                        coin1.setTotalprice(dto.getBougthprice()*dto.getQuantity());
+                        coin1.setTotalprice(dto.getBougthprice() * dto.getQuantity());
 
                         portfolio.getPortfolioCoins().add(coin1);
                     }
@@ -89,7 +90,7 @@ public class Portfolioservice implements IportfolioServiceImpl {
             }
         }
 
-        calculatePortfolioPrice(Portfolioid,coinPortfs);
+        calculatePortfolioPrice(Portfolioid, coinPortfs);
         return portfolioRepo.save(portfolio);
     }
 
@@ -122,7 +123,9 @@ public class Portfolioservice implements IportfolioServiceImpl {
         for (PortfolioCoin portfolio : deletePortfolio.getPortfolioCoins()) {
             for (deleteCoindto portfName : coinName) {
                 if (portfName.getName().equals(portfolio.getName())) {
-                    PortfolioCoin deletedcoin = coinRepo.getByName(portfolio.getName());
+
+                    PortfolioCoin deletedcoin = coinRepo.getById(portfName.getId());
+
                     if (deletedcoin != null) {
                         coinsToRemove.add(deletedcoin);
                     } else {
@@ -147,20 +150,28 @@ public class Portfolioservice implements IportfolioServiceImpl {
 
         Portfolio portfolio = portfolioRepo.getById(portfId);
 
-        Double price=0.0;
+        Double price = 0.0;
 
         if (portfolio == null) {
             System.out.println("Not Found Portfolio");
             return null;
         }
-        for (AddCoinportfDto addCoinportfDto:addCoinportfDtos){
-            price=addCoinportfDto.getBougthprice()*addCoinportfDto.getQuantity();
+        for (AddCoinportfDto addCoinportfDto : addCoinportfDtos) {
+            price = addCoinportfDto.getBougthprice() * addCoinportfDto.getQuantity();
         }
-        if (portfolio.getPortfolioPrice()==null){
+        if (portfolio.getPortfolioPrice() == null) {
             portfolio.setPortfolioPrice(0.0);
         }
-        portfolio.setPortfolioPrice(price+portfolio.getPortfolioPrice());
+        portfolio.setPortfolioPrice(price + portfolio.getPortfolioPrice());
 
         return portfolio;
+    }
+
+    @Override
+    public void calculateAndSetPrice(Long portfId, PortfolioCoin coin) {
+        Portfolio portfolio=portfolioRepo.getById(portfId);
+
+
+
     }
 }

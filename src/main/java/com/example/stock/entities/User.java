@@ -21,10 +21,14 @@ public class User {
 
     @Column(name = "name")
     private String name;
+
     private String surname;
+
     @Lob
     private String about;
+
     private String email;
+
     private String password;
     @Lob
     private byte[] profilePhoto;
