@@ -2,6 +2,7 @@ package com.example.stock.controller;
 
 import com.example.stock.dto.AddCoinportfDto;
 import com.example.stock.dto.CreatePortfdto;
+import com.example.stock.dto.SellCoinDto;
 import com.example.stock.dto.deleteCoindto;
 import com.example.stock.entities.Portfolio;
 import com.example.stock.services.Portfolioservice;
@@ -17,6 +18,10 @@ import java.util.List;
 public class PortfolioController {
     @Autowired
     Portfolioservice portfolioservice;
+    @PostMapping("/sell")
+    public Portfolio sellCoinByportfolio(@RequestBody SellCoinDto sellCoinDto){
+        return portfolioservice.sellCoinportf(sellCoinDto);
+    }
     @PostMapping("/create")
     public Portfolio createPortf(@RequestBody CreatePortfdto portfolio){
         return portfolioservice.CreatePortfolio(portfolio);

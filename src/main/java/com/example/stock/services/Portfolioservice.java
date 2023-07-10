@@ -2,6 +2,7 @@ package com.example.stock.services;
 
 import com.example.stock.dto.AddCoinportfDto;
 import com.example.stock.dto.CreatePortfdto;
+import com.example.stock.dto.SellCoinDto;
 import com.example.stock.dto.deleteCoindto;
 import com.example.stock.entities.Coin;
 import com.example.stock.entities.Portfolio;
@@ -11,6 +12,7 @@ import com.example.stock.repository.PortfCoinRepo;
 import com.example.stock.repository.PortfolioRepo;
 import com.example.stock.repository.UserRepo;
 import com.example.stock.services.impl.IportfolioServiceImpl;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,8 @@ public class Portfolioservice implements IportfolioServiceImpl {
     PortfCoinRepo coinRepo;
     @Autowired
     private UserRepo userRepo;
-
+    @Autowired
+    private EntityManager entityManager;
     @Override
     public Portfolio CreatePortfolio(CreatePortfdto portfolio) {
         Portfolio portfolio1 = new Portfolio();
@@ -48,6 +51,7 @@ public class Portfolioservice implements IportfolioServiceImpl {
     public List<Portfolio> getallPortf() {
         return portfolioRepo.findAll();
     }
+
 
     @Override
     public Portfolio addCoinPortf(Long Portfolioid, List<AddCoinportfDto> coinPortfs) {
@@ -106,7 +110,6 @@ public class Portfolioservice implements IportfolioServiceImpl {
         portfolioRepo.delete(deleteportf);
         return deleteportf;
     }
-
     @Transactional
     @Override
     public Portfolio deletePortfCoin(Long portfId, List<deleteCoindto> coinName) {
@@ -117,15 +120,11 @@ public class Portfolioservice implements IportfolioServiceImpl {
             System.out.println("Not found portfolio");
             return null;
         }
-
         List<PortfolioCoin> coinsToRemove = new ArrayList<>();
-
         for (PortfolioCoin portfolio : deletePortfolio.getPortfolioCoins()) {
             for (deleteCoindto portfName : coinName) {
                 if (portfName.getName().equals(portfolio.getName())) {
-
                     PortfolioCoin deletedcoin = coinRepo.getById(portfName.getId());
-
                     if (deletedcoin != null) {
                         coinsToRemove.add(deletedcoin);
                     } else {
@@ -173,5 +172,29 @@ public class Portfolioservice implements IportfolioServiceImpl {
 
 
 
+    }
+
+    @Override
+    @Transactional
+    public Portfolio sellCoinportf(SellCoinDto sellCoinDto) {
+
+        Portfolio portfolio=portfolioRepo.getById(sellCoinDto.getPortfId());
+
+        for (PortfolioCoin portfolio1:portfolio.getPortfolioCoins()){
+            if (Objects.equals(portfolio1.getName(), sellCoinDto.getCoinName())){
+                Double oldquantity=portfolio1.getQuantity();
+                Double oldTotalPrice=portfolio1.getTotalprice();
+                portfolio1.setQuantity(oldquantity- sellCoinDto.getQuantity());
+                portfolio1.setTotalprice(oldquantity-(sellCoinDto.getQuantity()*sellCoinDto.getCoinprice()));
+                entityManager.merge(portfolio1);
+            }else {
+                System.out.println("Coin not found");
+            }
+
+
+        }
+
+
+        return portfolio;
     }
 }

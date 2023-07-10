@@ -2,6 +2,7 @@ package com.example.stock.services.impl;
 
 import com.example.stock.dto.AddCoinportfDto;
 import com.example.stock.dto.CreatePortfdto;
+import com.example.stock.dto.SellCoinDto;
 import com.example.stock.dto.deleteCoindto;
 import com.example.stock.entities.Portfolio;
 import com.example.stock.entities.PortfolioCoin;
@@ -16,5 +17,7 @@ public interface IportfolioServiceImpl {
     Portfolio deletePortfCoin(Long portfId,List<deleteCoindto> coinName );
     Portfolio calculatePortfolioPrice(Long portfId,List<AddCoinportfDto> Portfolio);
     void calculateAndSetPrice(Long portfId, PortfolioCoin coin);
+    Portfolio sellCoinportf(SellCoinDto sellCoinDto);
+
 
 }
