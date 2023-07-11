@@ -24,12 +24,16 @@ public class User {
 
     private String surname;
 
+    private String UserName;
+
     @Lob
     private String about;
 
     private String email;
 
     private String password;
+
+
     @Lob
     private byte[] profilePhoto;
 

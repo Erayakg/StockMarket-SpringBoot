@@ -168,9 +168,6 @@ public class Portfolioservice implements IportfolioServiceImpl {
 
     @Override
     public void calculateAndSetPrice(Long portfId, PortfolioCoin coin) {
-        Portfolio portfolio=portfolioRepo.getById(portfId);
-
-
 
     }
 
@@ -184,8 +181,8 @@ public class Portfolioservice implements IportfolioServiceImpl {
             if (Objects.equals(portfolio1.getName(), sellCoinDto.getCoinName())){
                 Double oldquantity=portfolio1.getQuantity();
                 Double oldTotalPrice=portfolio1.getTotalprice();
-                portfolio1.setQuantity(oldquantity- sellCoinDto.getQuantity());
-                portfolio1.setTotalprice(oldquantity-(sellCoinDto.getQuantity()*sellCoinDto.getCoinprice()));
+                portfolio1.setQuantity(oldquantity - sellCoinDto.getQuantity());
+                portfolio1.setTotalprice(oldTotalPrice-(portfolio1.getBougthPrice()*sellCoinDto.getQuantity()));
                 entityManager.merge(portfolio1);
             }else {
                 System.out.println("Coin not found");
