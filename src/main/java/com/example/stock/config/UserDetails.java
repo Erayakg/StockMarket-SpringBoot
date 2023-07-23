@@ -22,7 +22,6 @@ public class UserDetails implements org.springframework.security.core.userdetail
                 .map(SimpleGrantedAuthority::new).
                 collect(Collectors.toList());
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

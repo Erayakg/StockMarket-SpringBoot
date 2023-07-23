@@ -42,4 +42,9 @@ public class PortfolioController {
     public Portfolio DeletePortfCoin(@PathVariable Long portfId,@RequestBody List<deleteCoindto> coinName) {
         return portfolioservice.deletePortfCoin(portfId,coinName);
     }
+
+    @GetMapping("/getid/{id}")
+    public  Portfolio GetByIdPortfolio(@PathVariable Long id){
+        return portfolioservice.getByid(id);
+    }
 }

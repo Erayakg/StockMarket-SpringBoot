@@ -42,7 +42,7 @@ public class SecurityConfig  {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/portfolio/getAll","coin/**","/user/add","/user/authenticate").permitAll()
+                        .requestMatchers("/portfolio/getAll","coin/**","/user/add","/user/authenticate","/portfolio/getid/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

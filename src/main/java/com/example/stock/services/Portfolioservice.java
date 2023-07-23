@@ -14,6 +14,7 @@ import com.example.stock.repository.UserRepo;
 import com.example.stock.services.impl.IportfolioServiceImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,11 +94,9 @@ public class Portfolioservice implements IportfolioServiceImpl {
                 }
             }
         }
-
         calculatePortfolioPrice(Portfolioid, coinPortfs);
         return portfolioRepo.save(portfolio);
     }
-
     @Override
     public Portfolio deletePortf(Long portfId) {
 
@@ -133,17 +132,14 @@ public class Portfolioservice implements IportfolioServiceImpl {
                 }
             }
         }
-
         for (PortfolioCoin coin : coinsToRemove) {
             System.out.println(coin);
             deletePortfolio.getPortfolioCoins().remove(coin);
             coinRepo.delete(coin);
         }
-
         coinRepo.flush();
         return deletePortfolio;
     }
-
     @Override
     public Portfolio calculatePortfolioPrice(Long portfId, List<AddCoinportfDto> addCoinportfDtos) {
 
@@ -165,12 +161,10 @@ public class Portfolioservice implements IportfolioServiceImpl {
 
         return portfolio;
     }
-
     @Override
     public void calculateAndSetPrice(Long portfId, PortfolioCoin coin) {
 
     }
-
     @Override
     @Transactional
     public Portfolio sellCoinportf(SellCoinDto sellCoinDto) {
@@ -187,11 +181,11 @@ public class Portfolioservice implements IportfolioServiceImpl {
             }else {
                 System.out.println("Coin not found");
             }
-
-
         }
-
-
         return portfolio;
+    }
+
+    public Portfolio getByid(Long id) {
+        return portfolioRepo.getById(id);
     }
 }
