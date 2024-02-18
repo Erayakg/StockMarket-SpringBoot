@@ -11,22 +11,18 @@ import com.example.stock.entities.User;
 import com.example.stock.repository.PortfCoinRepo;
 import com.example.stock.repository.PortfolioRepo;
 import com.example.stock.repository.UserRepo;
-import com.example.stock.services.impl.IportfolioServiceImpl;
+import com.example.stock.services.contract.IportfolioServiceContract;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
-public class Portfolioservice implements IportfolioServiceImpl {
+public class Portfolioservice implements IportfolioServiceContract {
     @Autowired
     PortfolioRepo portfolioRepo;
     @Autowired

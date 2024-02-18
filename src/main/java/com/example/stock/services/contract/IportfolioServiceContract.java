@@ -1,4 +1,4 @@
-package com.example.stock.services.impl;
+package com.example.stock.services.contract;
 
 import com.example.stock.dto.AddCoinportfDto;
 import com.example.stock.dto.CreatePortfdto;
@@ -9,7 +9,7 @@ import com.example.stock.entities.PortfolioCoin;
 
 import java.util.List;
 
-public interface IportfolioServiceImpl {
+public interface IportfolioServiceContract {
     Portfolio CreatePortfolio(CreatePortfdto portfolio);
     List<Portfolio> getallPortf();
     Portfolio addCoinPortf(Long portfolioid,List<AddCoinportfDto> CoinId);
