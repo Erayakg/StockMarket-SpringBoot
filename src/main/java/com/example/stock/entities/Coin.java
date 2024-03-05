@@ -23,6 +23,7 @@ public class Coin {
     private Double bidPrice;
     private Double bidQty;
     private Double askPrice;
+    private Double askedpricce;
     private Double askQty;
     private Double openPrice;
     private Double highPrice;
